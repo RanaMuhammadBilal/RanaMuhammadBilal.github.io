@@ -45,6 +45,16 @@
     background-color: #000000; /* Use your app's main dark background color */
   }
 </style>
+  <script>
+  // FIX: Disable the browser's native scroll restoration behavior.
+  // This prevents the mobile keyboard from causing sudden jumps/closures.
+  window.addEventListener('load', function(ev) {
+    document.body.addEventListener('mousewheel', function(e) { e.preventDefault(); }, { passive: false });
+  });
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+</script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
