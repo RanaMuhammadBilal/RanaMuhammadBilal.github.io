@@ -16,22 +16,30 @@
   -->
 
   <style>
+    html, body {
+    overscroll-behavior: contain;
+    touch-action: manipulation;
+  }
   /* Change the body background to your dark color */
   body {
-    background-color: #000000; /* Use your app's main dark background color */
+    background-color: #000000;
+    /* Use your app's main dark background color */
   }
+    
 </style>
   <base href="/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Portfolio of Rana Muhammad Bilal — Flutter Developer specializing in modern, responsive mobile and web applications. Explore my projects, skills, and contact information..">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="my_portfolio">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
@@ -47,5 +55,21 @@
   }
 </style>
   <script src="flutter_bootstrap.js" async></script>
+  <script>
+  // Prevent the page from jumping when the keyboard opens on mobile
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+      document.body.style.height = window.visualViewport.height + 'px';
+    });
+  }
+
+  // Prevent scroll-to-top on input focus (common in mobile browsers)
+  document.addEventListener('touchstart', function(event) {
+    if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+      event.stopPropagation();
+    }
+  }, true);
+</script>
+
 </body>
 </html>
