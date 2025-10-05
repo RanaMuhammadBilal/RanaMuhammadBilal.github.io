@@ -16,17 +16,32 @@
   -->
 
   <style>
-    html, body {
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
     overscroll-behavior: contain;
     touch-action: manipulation;
-  }
-  /* Change the body background to your dark color */
-  body {
     background-color: #000000;
-    /* Use your app's main dark background color */
   }
-    
+
+  /* Prevent page from resizing when keyboard opens */
+  @supports (-webkit-touch-callout: none) {
+    html, body {
+      position: fixed;
+      width: 100%;
+    }
+  }
+
+  /* Flutter canvas setup fix */
+  #flt-glass-pane, #flutter-container {
+    position: fixed !important;
+    inset: 0;
+    overflow: hidden;
+  }
 </style>
+  
   <base href="/">
 
   <meta charset="UTF-8">
@@ -38,7 +53,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="Rana Muhammad Bilal Portfolio">
-  <meta name="amobile-web-app-title" content="Rana Muhammad Bilal Portfolio">
+  <meta name="mobile-web-app-title" content="Rana Muhammad Bilal Portfolio">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
