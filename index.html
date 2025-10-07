@@ -1,38 +1,134 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="/">
 
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
-  <!-- iOS meta tags & icons -->
+  <!-- SEO -->
+  <meta name="description" content="Portfolio of Rana Muhammad Bilal — Flutter Developer specializing in modern, responsive mobile and web applications. Explore my projects, skills, and contact information.">
+
+  <!-- Mobile / PWA -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="my_portfolio">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="apple-mobile-web-app-title" content="Rana Muhammad Bilal Portfolio">
 
-  <!-- Favicon -->
+  <!-- Icons -->
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>my_portfolio</title>
+  <title>Rana Muhammad Bilal Portfolio</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    /* Basic layout and dark background */
+    html, body {
+      height: 100%;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+      color: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      touch-action: manipulation;
+    }
+
+    /* Allow page to scroll normally; avoid overflow:hidden */
+    body {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Keep flutter canvas full-size but not forcibly fixed (avoid losing focus) */
+    #flt-glass-pane, #flutter-container, #flt-platform-view-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* Ensure input fields can be scrolled into view */
+    input, textarea {
+      -webkit-text-size-adjust: 100%;
+      -webkit-appearance: none;
+    }
+  </style>
 </head>
+
 <body>
+  <!-- Flutter bootstrap -->
   <script src="flutter_bootstrap.js" async></script>
+
+  <!-- Mobile keyboard / viewport handling -->
+  <script>
+    (function () {
+      // If visualViewport available, adjust body / html height on resize.
+      function onResize() {
+        try {
+          if (window.visualViewport) {
+            // Set a CSS custom property so Flutter or other JS can use it if needed
+            document.documentElement.style.setProperty('--vv-height', window.visualViewport.height + 'px');
+            // Also set minHeight on body to avoid the browser shrinking it too aggressively
+            document.body.style.minHeight = window.visualViewport.height + 'px';
+          } else {
+            // fallback
+            document.body.style.minHeight = window.innerHeight + 'px';
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', onResize);
+        window.visualViewport.addEventListener('scroll', onResize);
+      }
+      window.addEventListener('orientationchange', onResize);
+      window.addEventListener('resize', onResize);
+
+      // Ensure initial sizing
+      onResize();
+
+      // When input receives focus, try to scroll it into view after slight delay
+      document.addEventListener('focusin', (ev) => {
+        const target = ev.target;
+        if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
+          // On some Android browsers we need a tiny delay
+          setTimeout(() => {
+            try {
+              // scroll the element into view if possible
+              if (typeof target.scrollIntoView === 'function') {
+                target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+              }
+            } catch (e) {}
+          }, 50);
+        }
+      });
+
+      // On focusout restore minHeight if needed
+      document.addEventListener('focusout', () => {
+        setTimeout(onResize, 100);
+      });
+
+      // Prevent some mobile browsers from jumping to top when focusing inputs
+      document.addEventListener('touchstart', function (event) {
+        // allow default but stop propagation to avoid other handlers interfering
+        // only stopPropagation if the target is input/textarea to avoid other breakage
+        try {
+          const t = event.target;
+          if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) {
+            event.stopPropagation();
+          }
+        } catch (e) {}
+      }, true);
+    })();
+  </script>
 </body>
 </html>
